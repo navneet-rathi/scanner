@@ -1,0 +1,18 @@
+---
+- name: Check for known CVEs
+  hosts: all
+  tasks:
+    - name: Install OpenSCAP (if not already installed)
+      ansible.builtin.package:
+        name: openscap-scanner
+        state: present
+
+    - name: Run OpenSCAP scan
+      ansible.builtin.command: oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_cis /usr/share/xml/scap/ssg/content/ssg-rhel8-ds.xml
+      register: cve_scan
+
+    - name: Save CVE report to file
+      copy:
+        content: "{{ inventory_hostname }},{{ cve_scan.stdout }}"
+        dest: /var/ansible/cve_results.csv
+      delegate_to: localhost
