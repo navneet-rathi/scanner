@@ -1,0 +1,17 @@
+---
+- name: Generate Ansible Jinja2 Report
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - name: Gather facts and generate HTML report
+      template:
+        src: report_template.j2
+        dest: /tmp/ansible_report.html
+      vars:
+        results:
+          server1: { status: "Success", msg: "Configuration applied" }
+          server2: { status: "Failed", msg: "Network issue" }
+
+    - name: Convert HTML to PDF
+      ansible.builtin.shell: wkhtmltopdf /tmp/ansible_report.html /tmp/ansible_report.pdf
+      when: ansible_facts['ansible_os_family'] == "RedHat"
