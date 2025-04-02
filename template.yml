@@ -13,5 +13,5 @@
           server2: { status: "Failed", msg: "Network issue" }
 
     - name: Convert HTML to PDF
-      ansible.builtin.shell: wkhtmltopdf /tmp/ansible_report.html /tmp/ansible_report.pdf
+      ansible.builtin.shell: /usr/local/bin/wkhtmltopdf /tmp/ansible_report.html /tmp/ansible_report.pdf
       when: ansible_os_family == "RedHat"
