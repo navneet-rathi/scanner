@@ -14,4 +14,4 @@
 
     - name: Convert HTML to PDF
       ansible.builtin.shell: wkhtmltopdf /tmp/ansible_report.html /tmp/ansible_report.pdf
-      when: ansible_facts['ansible_os_family'] == "RedHat"
+      when: ansible_os_family == "RedHat"
